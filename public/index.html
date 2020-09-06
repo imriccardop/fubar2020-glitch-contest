@@ -9,10 +9,38 @@
       name="description"
       content="Web site created using create-react-app"
     />
-    <title>Fare scegliere il nome del progetto alla Anna</title>
+
+    <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Change without choice</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <script type="text/javascript">
+      $(window).on('load',function(){
+          $('#myModal').modal('show');
+      });
+  </script>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Change without choice</h4>
+          </div>
+          <div class="modal-body">
+            <p><b>"Change without choice"</b> is an experiment based on glitch for /’fu:bar/ 2020 contest.<br/>
+               This project was inspired by Mark Rothko, Gerhard Richter, graphic errors and generative art. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </body>
 </html>

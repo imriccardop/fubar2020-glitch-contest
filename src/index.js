@@ -3,24 +3,35 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
   const maxClock= 3000;
-  const numberOfLayer = 25;
+  const numberOfLayer = 36;
   const imgLayerPrefix = "./images/multilevelimage000L";
   const imgLayerFileExtencions = ".png";
 
   class Layer extends React.Component{
     constructor(props){
       super(props);
-      this.state = {imgNumber : props.imgNumber, imgLevel : props.imgLevel};
+      this.state = {
+        imgNumber : props.imgNumber,
+        imgLevel : props.imgLevel,
+        xScale : this.scaleVal(),
+        yScale : this.scaleVal(),
+      };
     }
 
     render(){
       //let randomNumber = Math.floor(Math.random()*numberOfLayer);
       let styleVar = {zIndex: this.state.imgLevel,
-      "background-image": "url(" + imgLayerPrefix + this.props.imgNumber+ imgLayerFileExtencions + ")"
+        "background-image": "url(" + imgLayerPrefix + this.props.imgNumber+ imgLayerFileExtencions + ")",
+        transform: "scaleX(" + this.state.xScale + ") scaleY(" + this.state.yScale + ")"
       };
       console.log(styleVar);
       return <div className = "imgLayer" style= {styleVar}></div>;
     }
+
+    scaleVal(){
+      return (Math.floor(Math.random() * 1.9) * 2) -1; 
+    }
+
   }
 
   class LayerCollector extends React.Component{
@@ -46,14 +57,17 @@ import './index.css';
         if(this.state.layers != null){
           layers = this.state.layers;
         }
-        layers.push(Math.floor(Math.random() * numberOfLayer));
-        if(layers.length >= 100){
-          layers.shift();
+        let newNumberLevel = Math.random() * numberOfLayer;
+        if(newNumberLevel != layers[layers.length - 1]){
+          layers.push(Math.floor(newNumberLevel));
+          if(layers.length >= 100){
+            layers.shift();
+          }
+          this.setState({nLayer:this.state.nLayer + 1, layers:layers});
+          this.layerLoader();
         }
-        this.setState({nLayer:this.state.nLayer + 1, layers:layers});
-        this.layerLoader();
       }, Math.floor(Math.random() * maxClock));
-      
+
     }
 
     componentDidMount(){

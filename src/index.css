@@ -22,3 +22,32 @@ body, html {
 }
 
 @keyframes opac{from{opacity:0} to{opacity:1}}
+
+.imgLayerTitle {
+  height: 100%;
+  width:100%;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+}
+
+.titleContainer {
+  position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    z-index: 101;
+}
+
+.titleContainer span{
+  background-color: #111;
+    color: #fff;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 10px;
+    margin-top: 25px;
+}
