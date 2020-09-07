@@ -11,39 +11,16 @@ import './index.css';
   class Layer extends React.Component{
     constructor(props){
       super(props);
-      this.state = {
-        imgNumber : props.imgNumber,
-        imgLevel : props.imgLevel,
-        xScale : this.scaleVal(),
-        yScale : this.scaleVal(),
-        hueRotate : this.hueVal(),
-        invert : this.invertVal(),
-      };
     }
 
     render(){
-      //let randomNumber = Math.floor(Math.random()*numberOfLayer);
-      let styleVar = {zIndex: this.state.imgLevel,
+      let styleVar = {zIndex: this.props.imgLevel,
         backgroundImage: "url(" + imgLayerPrefix + this.props.imgNumber+ imgLayerFileExtencions + ")",
-        transform: "scaleX(" + this.state.xScale + ") scaleY(" + this.state.yScale + ")",
-        "filter": "hue-rotate(" + this.state.hueRotate + "deg) invert(" + this.state.invert + ") blur(5px)",
+        transform: "scaleX(" + this.props.xScale + ") scaleY(" + this.props.yScale + ")",
+        "filter": "hue-rotate(" + this.props.hueRotate + "deg) invert(" + this.props.invert + ") blur(5px)",
       };
-      console.log(styleVar);
       return <div className = "imgLayer" style= {styleVar}></div>;
     }
-
-    scaleVal(){
-      return (Math.floor(Math.random() * 1.9) * 2) -1; 
-    }
-
-    hueVal(){
-      return (Math.floor(Math.random() * 3.9) * 90)  * (-1);
-    }
-
-    invertVal(){
-      return (Math.floor(Math.random() * 1.9));
-    }
-
   }
 
   class LayerCollector extends React.Component{
@@ -51,16 +28,21 @@ import './index.css';
     constructor(){
       super();
       this.state = {layers:[], nLayer:0};
-      console.log("LayerCollector constructor");
     }
 
     render(){
       if(this.state.layers === null || this.state.layers.lenght === 0){
-        console.log("LayerCollector render null");
         return null;
       }
-      console.log("LayerCollector render notnull");
-      return this.state.layers.map((imageNumber, key) => <Layer imgNumber={imageNumber} imgLevel={key}/>);
+      return this.state.layers.map((layer, key) => 
+      <Layer 
+        imgNumber={layer.imgNumber}
+        imgLevel={key}
+        xScale={layer.xScale}
+        yScale={layer.yScale}
+        hueRotate={layer.hueRotate}
+        invert={layer.invert}
+      />);
     }
 
     layerLoader() {
@@ -69,9 +51,15 @@ import './index.css';
         if(this.state.layers != null){
           layers = this.state.layers;
         }
-        let newNumberLevel = Math.random() * numberOfLayer;
+        let newNumberLevel = this.generateNumberOfImage();
         if(newNumberLevel != layers[layers.length - 1]){
-          layers.push(Math.floor(newNumberLevel));
+          layers.push({
+            imgNumber : newNumberLevel,
+            xScale : this.generateScaleVal(),
+            yScale : this.generateScaleVal(),
+            hueRotate : this.generateHueVal(),
+            invert : this.generateInvertVal(),
+          });
           if(layers.length >= 100){
             layers.shift();
           }
@@ -83,7 +71,6 @@ import './index.css';
     }
 
     componentDidMount(){
-      console.log(this.state.layers);
       this.layerLoader();
     }
 
@@ -91,6 +78,21 @@ import './index.css';
       return Math.floor(Math.random() * maxClock) + minClock;
     }
 
+    generateNumberOfImage(){
+      return Math.floor(Math.random() * numberOfLayer);
+    }
+
+    generateScaleVal(){
+      return (Math.floor(Math.random() * 1.9) * 2) -1; 
+    }
+
+    generateHueVal(){
+      return (Math.floor(Math.random() * 3.9) * 90)  * (-1);
+    }
+
+    generateInvertVal(){
+      return (Math.floor(Math.random() * 1.9));
+    }
   }
 
   ReactDOM.render(
