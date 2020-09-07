@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-  const maxClock= 3000;
+  const minClock = 1000; // 1 sec
+  const maxClock= 3000; // 3 sec
   const numberOfLayer = 36;
   const imgLayerPrefix = "./images/multilevelimage000L";
   const imgLayerFileExtencions = ".png";
@@ -15,14 +16,17 @@ import './index.css';
         imgLevel : props.imgLevel,
         xScale : this.scaleVal(),
         yScale : this.scaleVal(),
+        hueRotate : this.hueVal(),
+        invert : this.invertVal(),
       };
     }
 
     render(){
       //let randomNumber = Math.floor(Math.random()*numberOfLayer);
       let styleVar = {zIndex: this.state.imgLevel,
-        "background-image": "url(" + imgLayerPrefix + this.props.imgNumber+ imgLayerFileExtencions + ")",
-        transform: "scaleX(" + this.state.xScale + ") scaleY(" + this.state.yScale + ")"
+        backgroundImage: "url(" + imgLayerPrefix + this.props.imgNumber+ imgLayerFileExtencions + ")",
+        transform: "scaleX(" + this.state.xScale + ") scaleY(" + this.state.yScale + ")",
+        "filter": "hue-rotate(" + this.state.hueRotate + "deg) invert(" + this.state.invert + ") blur(5px)",
       };
       console.log(styleVar);
       return <div className = "imgLayer" style= {styleVar}></div>;
@@ -30,6 +34,14 @@ import './index.css';
 
     scaleVal(){
       return (Math.floor(Math.random() * 1.9) * 2) -1; 
+    }
+
+    hueVal(){
+      return (Math.floor(Math.random() * 3.9) * 90)  * (-1);
+    }
+
+    invertVal(){
+      return (Math.floor(Math.random() * 1.9));
     }
 
   }
@@ -66,13 +78,17 @@ import './index.css';
           this.setState({nLayer:this.state.nLayer + 1, layers:layers});
           this.layerLoader();
         }
-      }, Math.floor(Math.random() * maxClock));
+      }, this.generateClockVal());
 
     }
 
     componentDidMount(){
       console.log(this.state.layers);
       this.layerLoader();
+    }
+
+    generateClockVal(){
+      return Math.floor(Math.random() * maxClock) + minClock;
     }
 
   }

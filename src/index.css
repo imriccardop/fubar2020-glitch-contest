@@ -18,7 +18,7 @@ body, html {
   background-size: cover;
   position: absolute;
 
-  animation:opac 0.5s
+  animation:opac 1s
 }
 
 @keyframes opac{from{opacity:0} to{opacity:1}}
